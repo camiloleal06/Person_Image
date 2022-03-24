@@ -18,6 +18,11 @@
 		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
 
 	</properties>
+	
+	<properties>
+  <sonar.organization>camiloleal06</sonar.organization>
+  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
