@@ -3,22 +3,19 @@ package org.personimage.net.services;
 import java.io.IOException;
 import java.util.List;
 
-import org.personimage.net.entities.ImageEntity;
-import org.personimage.net.exceptions.ImageNotFoundException;
+import org.personimage.net.entities.ImageMongo;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ImageService {
 
-    public List<ImageEntity> listAll();
+    public List<ImageMongo> listAll();
 
-    public ImageEntity saveImage(MultipartFile imagefile) throws IOException;
+    public boolean existsById(String id);
 
-    public ImageEntity findById(Integer id) throws ImageNotFoundException;
+    ImageMongo findById(String id);
 
-    public boolean existsById(Integer id);
+    ImageMongo saveImagen(MultipartFile file, ImageMongo img) throws IOException;
 
-    public void deleteImage(Integer id) throws ImageNotFoundException;
-
-    public ImageEntity updateImage(Integer id, MultipartFile imageFile) throws ImageNotFoundException, IOException;
+    void deleteImagen(String id);
 
 }

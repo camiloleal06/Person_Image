@@ -14,7 +14,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class ImageMongoEntity {
+public class ImageMongo {
     @Id
     private String id;
     private String name;

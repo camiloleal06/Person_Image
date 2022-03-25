@@ -17,5 +17,4 @@ public class PersonImageMongoDTO {
     private String phone;
     private String city;
     private String imageMongo;
-
 }

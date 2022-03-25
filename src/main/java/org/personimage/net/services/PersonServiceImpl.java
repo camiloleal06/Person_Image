@@ -9,9 +9,9 @@ import javax.transaction.Transactional;
 
 import org.personimage.net.dtos.PersonDTO;
 import org.personimage.net.dtos.PersonImageMongoDTO;
-import org.personimage.net.entities.ImageEntity;
-import org.personimage.net.entities.ImageMongoEntity;
+import org.personimage.net.entities.ImageMongo;
 import org.personimage.net.entities.PersonEntity;
+import org.personimage.net.exceptions.ImageNotFoundException;
 import org.personimage.net.exceptions.PersonNotFoundException;
 import org.personimage.net.mapper.PersonMapper;
 import org.personimage.net.repositories.ImageMongoRepository;
@@ -37,8 +37,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonEntity savePerson(PersonDTO personDTO) {
-	return personRepository.save(mapper.toEntity(personDTO));
+    public List<PersonImageMongoDTO> listAllDTo() {
+	return mapper.toListDTO(personRepository.findAll());
     }
 
     @Override
@@ -60,15 +60,11 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonEntity updatePerson(Integer id, PersonDTO personDTO) throws PersonNotFoundException, IOException {
-	if (!this.existsById(id))
-	    throw new PersonNotFoundException(id);
-	return personRepository.save(mapper.toEntity(personDTO, id));
-    }
-
-    @Override
-    public PersonEntity savePerson(PersonDTO personDTO, MultipartFile file) throws IOException {
-	return personRepository.save(mapper.toEntity(personDTO, this.setImage(file)));
+    public PersonEntity updateImageToPerson(Integer id, MultipartFile file)
+	    throws PersonNotFoundException, IOException {
+	PersonEntity person = this.getById(id).orElseThrow(() -> new PersonNotFoundException(id));
+	person.setImageMongo(this.setImagenMongo(file).getId());
+	return personRepository.save(person);
     }
 
     @Override
@@ -76,31 +72,34 @@ public class PersonServiceImpl implements PersonService {
 	return personRepository.save(mapper.toEntity(personDTO, this.setImagenMongo(file).getId()));
     }
 
+    @Override
     public PersonImageMongoDTO getPersonImageMongo(int id) {
 	PersonEntity person = this.getById(id).orElseThrow(() -> new PersonNotFoundException(id));
-	ImageMongoEntity imageMongo = imageMongoRepository.findById(person.getImageMongo()).get();
-	person.setImageMongo(imageMongo.getName());
-	return mapper.toGetPersonDTO(person);
+	final String IMG = person.getImageMongo();
+	ImageMongo imageMongo = imageMongoRepository.findById(IMG).orElseThrow(() -> new ImageNotFoundException(IMG));
+	return mapper.toPersonImageMongoDTO(person, imageMongo.getImg());
     }
 
-    private ImageEntity setImage(MultipartFile file) throws IOException {
-	ImageEntity img = new ImageEntity();
-	byte[] imageByte = file.getBytes();
-	img.setName(file.getOriginalFilename());
-	img.setImg(Base64.getEncoder().encodeToString(imageByte));
-	img.setContentType(file.getContentType());
-	img.setSize(file.getSize());
-	return img;
-    }
-
-    public ImageMongoEntity setImagenMongo(MultipartFile file) throws IOException {
-	ImageMongoEntity img = new ImageMongoEntity();
+    public ImageMongo setImagenMongo(MultipartFile file) throws IOException {
+	ImageMongo img = new ImageMongo();
 	byte[] imageByte = file.getBytes();
 	img.setName(file.getOriginalFilename());
 	img.setImg(Base64.getEncoder().encodeToString(imageByte));
 	img.setSize(file.getSize());
 	img.setContentType(file.getContentType());
 	return imageMongoRepository.save(img);
+    }
+
+    @Override
+    public PersonEntity updateDataToPerson(Integer id, PersonDTO personDTO) {
+	PersonEntity p = this.getById(id).orElseThrow(() -> new PersonNotFoundException(id));
+	return personRepository.save(mapper.toEntityUpdate(p, personDTO));
+
+    }
+
+    @Override
+    public List<PersonEntity> listAllAgeGreaterTo(int age) {
+	return personRepository.findByAgeGreaterThan(age);
     }
 
 }
