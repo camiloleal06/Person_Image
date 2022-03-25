@@ -1,4 +1,4 @@
-# Person_Image Monolitico MySQL + MongoDB
+# Monolitico MySQL + MongoDB
 
 Monolitico taller práctico de Person and Image en talent pool Pragma SA casa Slytherin
 
