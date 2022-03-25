@@ -1,6 +1,6 @@
 # Monolitico MySQL + MongoDB
 
-Monolitico taller práctico de Person and Image en talent pool Pragma SA casa Slytherin
+Monolítico taller práctico de Person and Image en talent pool Pragma SA casa Slytherin
 
 Estado del código
 <center>
