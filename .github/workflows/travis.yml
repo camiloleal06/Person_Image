@@ -1,6 +1,5 @@
 language: java
-dist: xenial
-sudo: required
+sudo: false # faster builds
 
 jdk:
   - openjdk11
