@@ -9,3 +9,4 @@ Estado del código
   
 <h3 dir="auto">Tecnologías necesarias</h3>
 <p dir="auto"><code>Java</code> <code>Spring-boot</code> <code>MySQL</code> <code>MongoDB</code> <code>MySQL</code> <code>Maven</code> <code>GitHub</code> <code>SonarLint</code> <code>Better Code Hub</code> <code>Swagger</code></p>
+<p>[![Build Status](https://app.travis-ci.com/camiloleal06/Person_Image.svg?branch=master)](https://app.travis-ci.com/camiloleal06/Person_Image)</p>
